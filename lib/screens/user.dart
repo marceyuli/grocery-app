@@ -106,7 +106,9 @@ class _UserScreenState extends State<UserScreen> {
               _listTiles(
                   title: 'Logout',
                   icon: IconlyLight.logout,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _showLogoutDialog();
+                  },
                   color: color)
             ],
           ),
@@ -122,9 +124,9 @@ class _UserScreenState extends State<UserScreen> {
           return AlertDialog(
             title: const Text('Update'),
             content: TextField(
-              onChanged: (value) {
-                //_addressTextController.text;
-              },
+              // onChanged: (value) {
+              //   //_addressTextController.text;
+              // },
               controller: _addressTextController,
               maxLines: 5,
               decoration: const InputDecoration(hintText: "Your Adress"),
@@ -134,6 +136,46 @@ class _UserScreenState extends State<UserScreen> {
                 onPressed: () {},
                 child: const Text('Update'),
               ),
+            ],
+          );
+        });
+  }
+
+  Future<void> _showLogoutDialog() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/warning-sign.png',
+                  height: 20,
+                  width: 20,
+                  fit: BoxFit.fill,
+                ),
+                SizedBox(width: 8),
+                const Text('Sign Out')
+              ],
+            ),
+            content: Text('Do you wanna Sign Out?'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.cyan),
+                  )),
+              TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(color: Colors.red),
+                  )),
             ],
           );
         });
