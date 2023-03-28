@@ -31,7 +31,7 @@ class CategoriesScreen extends StatelessWidget {
             elevation: 0,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             title: TextWidget(
-              text: 'Categoreies',
+              text: 'Categories',
               color: color,
               textSize: 24,
               isTitle: true,
