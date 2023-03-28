@@ -13,6 +13,14 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  TextEditingController _addressTextController =
+      TextEditingController(text: "");
+  @override
+  void dispose() {
+    _addressTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
@@ -55,7 +63,9 @@ class _UserScreenState extends State<UserScreen> {
                   title: 'Address 2',
                   subtitle: 'My subtitle',
                   icon: IconlyLight.profile,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _showAdressDialog();
+                  },
                   color: color),
               _listTiles(
                   title: 'Orders',
@@ -103,6 +113,30 @@ class _UserScreenState extends State<UserScreen> {
         )),
       ),
     );
+  }
+
+  Future<void> _showAdressDialog() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Update'),
+            content: TextField(
+              onChanged: (value) {
+                //_addressTextController.text;
+              },
+              controller: _addressTextController,
+              maxLines: 5,
+              decoration: const InputDecoration(hintText: "Your Adress"),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {},
+                child: const Text('Update'),
+              ),
+            ],
+          );
+        });
   }
 
   Widget _listTiles({
