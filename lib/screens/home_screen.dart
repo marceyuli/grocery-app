@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/provider/dark_theme_provider.dart';
 import 'package:grocery_app/services/dark_theme_prefs.dart';
 import 'package:grocery_app/services/utils.dart';
@@ -17,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final Color color = Utils(context).color;
+
     final List<String> _offerImages = [
       'assets/images/offers/Offer1.jpg',
       'assets/images/offers/Offer2.jpg',
@@ -61,14 +64,64 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 6,
           ),
-          SizedBox(
-            height: size.height * 0.24,
-            child: ListView.builder(
-                itemCount: 10,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (ctx, index) {
-                  return OnSaleWidget();
-                }),
+          Row(
+            children: [
+              RotatedBox(
+                quarterTurns: -1,
+                child: Row(
+                  children: [
+                    TextWidget(
+                      text: 'On sale'.toUpperCase(),
+                      color: Colors.red,
+                      textSize: 22,
+                      isTitle: true,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Icon(IconlyLight.discount, color: Colors.red)
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Flexible(
+                child: SizedBox(
+                  height: size.height * 0.24,
+                  child: ListView.builder(
+                      itemCount: 10,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (ctx, index) {
+                        return const OnSaleWidget();
+                      }),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  text: 'Our products',
+                  color: color,
+                  textSize: 22,
+                  isTitle: true,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: TextWidget(
+                        text: 'Browse All',
+                        maxLines: 1,
+                        color: Colors.blue,
+                        textSize: 20))
+              ],
+            ),
           )
         ],
       ),
