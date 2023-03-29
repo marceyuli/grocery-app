@@ -4,6 +4,7 @@ import 'package:grocery_app/provider/dark_theme_provider.dart';
 import 'package:grocery_app/services/dark_theme_prefs.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/on_sale_widget.dart';
+import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -46,7 +47,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.white, activeColor: Colors.red)),
             )),
           ),
-          OnSaleWidget(),
+          const SizedBox(
+            height: 6,
+          ),
+          TextButton(
+              onPressed: () {},
+              child: TextWidget(
+                text: 'View All',
+                color: Colors.blue,
+                textSize: 20,
+                maxLines: 1,
+              )),
+          const SizedBox(
+            height: 6,
+          ),
+          SizedBox(
+            height: size.height * 0.24,
+            child: ListView.builder(
+                itemCount: 10,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, index) {
+                  return OnSaleWidget();
+                }),
+          )
         ],
       ),
     );
