@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 
@@ -36,10 +37,12 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        FancyShimmerImage(imageUrl: 'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
-                        height: size.width * 0.15,
-                        width: size.width * 0.15,
-                        boxFit: BoxFit.fill),
+                        FancyShimmerImage(
+                            imageUrl:
+                                'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
+                            height: size.width * 0.15,
+                            width: size.width * 0.15,
+                            boxFit: BoxFit.fill),
                         Column(
                           children: [
                             TextWidget(
@@ -59,13 +62,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                                     size: 22,
                                     color: color,
                                   )),
-                              GestureDetector(
-                                  onTap: () {},
-                                  child: Icon(
-                                    IconlyLight.heart,
-                                    size: 22,
-                                    color: color,
-                                  ))
+                              const HeartBtn(),
                             ]),
                           ],
                         )
