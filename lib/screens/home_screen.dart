@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Flexible(
@@ -129,10 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               crossAxisCount: 2,
+              padding: EdgeInsets.zero,
               //crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.6),
               children: List.generate(4, (index) {
-                return FeedsWidget();
+                return const FeedsWidget();
               }),
             ),
           ],

@@ -72,7 +72,15 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PriceWidget(),
+                        Flexible(
+                          flex: 4,
+                          child: PriceWidget(
+                            salePrice: 2.99,
+                            price: 5.9,
+                            textPrice: _quantityTextController.text,
+                            isOnSale: true,
+                          ),
+                        ),
                         const SizedBox(
                           width: 8,
                         ),
@@ -88,21 +96,32 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                             ),
                             const SizedBox(width: 5),
                             Flexible(
+                                flex: 2,
                                 child: TextFormField(
-                              controller: _quantityTextController,
-                              key: const ValueKey('10'),
-                              style: TextStyle(
-                                color: color,
-                                fontSize: 18,
-                              ),
-                              keyboardType: TextInputType.number,
-                              maxLines: 1,
-                              enabled: true,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9.]'))
-                              ],
-                            ))
+                                  controller: _quantityTextController,
+                                  key: const ValueKey('10 \$'),
+                                  style: TextStyle(
+                                    color: color,
+                                    fontSize: 18,
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  maxLines: 1,
+                                  enabled: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value.isEmpty) {
+                                        _quantityTextController.text = '1';
+                                      } else {
+
+                                      }
+                                    });
+                                  },
+                                  onSaved: (value){},
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9.]'))
+                                  ],
+                                ))
                           ]),
                         ),
                       ],
