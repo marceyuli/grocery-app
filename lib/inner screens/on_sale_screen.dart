@@ -10,6 +10,7 @@ class OnSaleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmpty = false;
     final Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
     return Scaffold(
@@ -19,20 +20,40 @@ class OnSaleScreen extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(IconlyLight.arrowLeft2,
-            color: color,),
+            child: Icon(
+              IconlyLight.arrowLeft2,
+              color: color,
+            ),
           ),
           elevation: 0,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          title: TextWidget(text: 'Products on sale', color: color, textSize: 24, isTitle: true,),
+          title: TextWidget(
+            text: 'Products on sale',
+            color: color,
+            textSize: 24,
+            isTitle: true,
+          ),
         ),
-        body: GridView.count(
-          crossAxisCount: 2,
-          padding: EdgeInsets.zero,
-          childAspectRatio: size.width / (size.height * 0.45),
-          children: List.generate(16, (index) {
-            return const OnSaleWidget();
-          }),
-        ));
+        body: isEmpty
+            // ignore: dead_code
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('No products on sale yet! \n Stay tuned',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: color,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700)),
+                ),
+              )
+            : GridView.count(
+                crossAxisCount: 2,
+                padding: EdgeInsets.zero,
+                childAspectRatio: size.width / (size.height * 0.45),
+                children: List.generate(16, (index) {
+                  return const OnSaleWidget();
+                }),
+              ));
   }
 }
