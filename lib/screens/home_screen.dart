@@ -1,8 +1,10 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/inner%20screens/on_sale_screen.dart';
 import 'package:grocery_app/provider/dark_theme_provider.dart';
 import 'package:grocery_app/services/dark_theme_prefs.dart';
+import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/feed_items.dart';
 import 'package:grocery_app/widgets/on_sale_widget.dart';
@@ -56,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 6,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  GlobalMethods().navigateTo(ctx: context, routeName: OnSaleScreen.routeName);
+                },
                 child: TextWidget(
                   text: 'View All',
                   color: Colors.blue,
