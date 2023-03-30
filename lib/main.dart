@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/consts/theme_data.dart';
+import 'package:grocery_app/inner%20screens/feed_screen.dart';
 import 'package:grocery_app/inner%20screens/on_sale_screen.dart';
 import 'package:grocery_app/provider/dark_theme_provider.dart';
 import 'package:grocery_app/screens/btm_bar.dart';
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
             home: BottomBarScreen(),
             routes: {
               OnSaleScreen.routeName : (ctx) => const OnSaleScreen(),
+              FeedScreen.routeName : (ctx) => const FeedScreen(),
             });
 
       }),
