@@ -50,105 +50,118 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: Column(
         children: [
-          Center(
-            child: Row(
-              children: [
-                FancyShimmerImage(
-                  imageUrl:
-                      'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
-                  boxFit: BoxFit.fill,
-                ),
-              ],
+          Flexible(
+            flex: 2,
+            child: FancyShimmerImage(
+              imageUrl:
+                  'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
+              boxFit: BoxFit.scaleDown,
+              width: size.width,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    TextWidget(
-                      text: 'Durazno',
-                      color: color,
-                      textSize: 25,
-                      isTitle: true,
-                    ),
-                    const Spacer(),
-                    const HeartBtn(),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    children: [
-                      TextWidget(
-                        text: '\$0.99',
-                        color: Colors.green,
-                        textSize: 25,
-                      ),
-                      const Text('/Kg'),
-                      const Spacer(),
-                      Material(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextWidget(
-                            text: 'Free delivery',
-                            color: Colors.white,
-                            textSize: 20,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          Flexible(
+            flex: 3,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  )),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: size.width * 0.3,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 30, right: 30),
                     child: Row(
                       children: [
-                        quantityController(
-                            fct: () {},
-                            icon: CupertinoIcons.minus,
-                            color: Colors.red),
-                        Flexible(
-                          flex: 1,
-                          child: TextField(
-                            controller: quantityTextController,
-                            keyboardType: TextInputType.number,
-                            maxLines: 1,
-                            decoration: const InputDecoration(
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide())),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp('[0-9]')),
-                            ],
-                            onChanged: (v) {
-                              setState(() {
-                                if (v.isEmpty) {
-                                  quantityTextController.text = '1';
-                                } else {
-                                  return;
-                                }
-                              });
-                            },
-                          ),
+                        TextWidget(
+                          text: 'Durazno',
+                          color: color,
+                          textSize: 25,
+                          isTitle: true,
                         ),
-                        quantityController(
-                            fct: () {},
-                            icon: CupertinoIcons.plus,
-                            color: Colors.green)
+                        const Spacer(),
+                        const HeartBtn(),
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 30, right: 30),
+                    child: Row(
+                      children: [
+                        TextWidget(
+                          text: '\$0.99',
+                          color: Colors.green,
+                          textSize: 25,
+                        ),
+                        const Text('/Kg'),
+                        const Spacer(),
+                        Material(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextWidget(
+                              text: 'Free delivery',
+                              color: Colors.white,
+                              textSize: 20,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 30, right: 30),
+                    child: Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: size.width * 0.3,
+                            child: Row(
+                              children: [
+                                quantityController(
+                                    fct: () {},
+                                    icon: CupertinoIcons.minus,
+                                    color: Colors.red),
+                                Flexible(
+                                  flex: 1,
+                                  child: TextField(
+                                    controller: quantityTextController,
+                                    keyboardType: TextInputType.number,
+                                    maxLines: 1,
+                                    decoration: const InputDecoration(
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide())),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp('[0-9]')),
+                                    ],
+                                    onChanged: (v) {
+                                      setState(() {
+                                        if (v.isEmpty) {
+                                          quantityTextController.text = '1';
+                                        } else {
+                                          return;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ),
+                                quantityController(
+                                    fct: () {},
+                                    icon: CupertinoIcons.plus,
+                                    color: Colors.green)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

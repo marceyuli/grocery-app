@@ -6,6 +6,9 @@ import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 
+import '../../inner screens/product_details.dart';
+import '../../services/global_methods.dart';
+
 class CartWidget extends StatefulWidget {
   const CartWidget({super.key});
 
@@ -34,7 +37,10 @@ class _CartWidgetState extends State<CartWidget> {
     Color color = Utils(context).color;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        GlobalMethods().navigateTo(
+            ctx: context, routeName: ProductDetailsScreen.routeName);
+      },
       child: Row(children: [
         Expanded(
           child: Padding(
@@ -52,6 +58,7 @@ class _CartWidgetState extends State<CartWidget> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0)),
                       child: FancyShimmerImage(
+                          
                           imageUrl:
                               'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
                           boxFit: BoxFit.fill),
