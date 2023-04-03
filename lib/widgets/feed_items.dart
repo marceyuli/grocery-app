@@ -1,6 +1,8 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grocery_app/inner%20screens/product_details.dart';
+import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
@@ -41,7 +43,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
           borderRadius: BorderRadius.circular(5),
           color: Theme.of(context).cardColor,
           child: InkWell(
-              onTap: () {},
+              onTap: () {
+                GlobalMethods().navigateTo(
+                    ctx: context, routeName: ProductDetailsScreen.routeName);
+              },
               borderRadius: BorderRadius.circular(5),
               child: Column(
                 children: [
@@ -111,12 +116,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                                     setState(() {
                                       if (value.isEmpty) {
                                         _quantityTextController.text = '1';
-                                      } else {
-
-                                      }
+                                      } else {}
                                     });
                                   },
-                                  onSaved: (value){},
+                                  onSaved: (value) {},
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                         RegExp('[0-9.]'))
