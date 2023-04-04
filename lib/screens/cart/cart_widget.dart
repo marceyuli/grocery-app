@@ -58,7 +58,6 @@ class _CartWidgetState extends State<CartWidget> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0)),
                       child: FancyShimmerImage(
-                          
                           imageUrl:
                               'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
                           boxFit: BoxFit.fill),
@@ -80,7 +79,19 @@ class _CartWidgetState extends State<CartWidget> {
                           child: Row(
                             children: [
                               quantityController(
-                                  fct: () {},
+                                  fct: () {
+                                    if (quantityTextController.text == '1') {
+                                      return;
+                                    } else {
+                                      setState(() {
+                                        quantityTextController.text =
+                                            (int.parse(quantityTextController
+                                                        .text) -
+                                                    1)
+                                                .toString();
+                                      });
+                                    }
+                                  },
                                   icon: CupertinoIcons.minus,
                                   color: Colors.red),
                               Flexible(
@@ -108,7 +119,14 @@ class _CartWidgetState extends State<CartWidget> {
                                 ),
                               ),
                               quantityController(
-                                  fct: () {},
+                                  fct: () {
+                                    setState(() {
+                                      quantityTextController.text = (int.parse(
+                                                  quantityTextController.text) +
+                                              1)
+                                          .toString();
+                                    });
+                                  },
                                   icon: CupertinoIcons.plus,
                                   color: Colors.green)
                             ],

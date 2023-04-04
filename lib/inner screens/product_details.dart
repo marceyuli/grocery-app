@@ -137,7 +137,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: Row(
                               children: [
                                 quantityController(
-                                    fct: () {},
+                                    fct: () {
+                                      if (quantityTextController.text == '1') {
+                                        return;
+                                      } else {
+                                        setState(() {
+                                          quantityTextController.text =
+                                              (int.parse(quantityTextController
+                                                          .text) -
+                                                      1)
+                                                  .toString();
+                                        });
+                                      }
+                                    },
                                     icon: CupertinoIcons.minus,
                                     color: Colors.red),
                                 Flexible(
@@ -165,7 +177,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                 ),
                                 quantityController(
-                                    fct: () {},
+                                    fct: () {
+                                      setState(() {
+                                        quantityTextController.text =
+                                            (int.parse(quantityTextController
+                                                        .text) +
+                                                    1)
+                                                .toString();
+                                      });
+                                    },
                                     icon: CupertinoIcons.plus,
                                     color: Colors.green)
                               ],
@@ -189,31 +209,41 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        TextWidget(
-                          text: 'Total',
-                          color: Colors.red,
-                          textSize: 25,
-                          isTitle: true,
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        TextWidget(
-                          text: '\$0.99',
-                          color: color,
-                          textSize: 20,
-                          isTitle: true,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidget(
+                        text: 'Total',
+                        color: Colors.red,
+                        textSize: 20,
+                        isTitle: true,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      FittedBox(
+                        child: Row(
+                          children: [
+                            TextWidget(
+                              text: '\$0.99/',
+                              color: color,
+                              textSize: 20,
+                              isTitle: true,
+                            ),
+                            TextWidget(
+                              text: '${quantityTextController.text}Kg',
+                              color: color,
+                              textSize: 16,
+                              isTitle: false,
+                            ),
+                          ],
                         ),
-                        const Text('/1kg'),
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 Column(
