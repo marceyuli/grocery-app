@@ -96,8 +96,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           text: '\$0.99',
                           color: Colors.green,
                           textSize: 25,
+                          isTitle: true,
                         ),
                         const Text('/Kg'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Visibility(
+                            visible: true,
+                            child: Text('\$2.99',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: color,
+                                    decoration: TextDecoration.lineThrough))),
                         const Spacer(),
                         Material(
                           color: Colors.green,
@@ -168,9 +179,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
           ),
-          const Spacer(),
-          Padding(
+          //const Spacer(),
+          Container(
+            width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
             child: Row(
               children: [
                 Column(
@@ -204,12 +221,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Material(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextWidget(
-                          text: 'In Cart',
-                          color: Colors.white,
-                          textSize: 20,
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(10),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextWidget(
+                            text: 'In Cart',
+                            color: Colors.white,
+                            textSize: 20,
+                          ),
                         ),
                       ),
                     )
