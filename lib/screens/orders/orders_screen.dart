@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/screens/orders/orders_widget.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
+import 'package:grocery_app/widgets/empty_screen.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -11,35 +12,42 @@ class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: const BackWidget(),
-        elevation: 0,
-        backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-        title: TextWidget(
-          text: 'Orders Screen',
-          color: color,
-          isTitle: true,
-          textSize: 22,
-        ),
-      ),
-      body: ListView.separated(
-        itemCount: 10,
-        itemBuilder: (ctx, index) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-            child: OrderWidget(),
+    bool isEmpty = true;
+    return isEmpty
+        ? const EmptyScreen(
+            imagePath: 'assets/images/cart.png',
+            title: 'You didnt place any order yet',
+            subtitle: 'order something and make me happy :)',
+            buttontext: 'Shop now')
+        : Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              leading: const BackWidget(),
+              elevation: 0,
+              backgroundColor:
+                  Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+              title: TextWidget(
+                text: 'Orders Screen',
+                color: color,
+                isTitle: true,
+                textSize: 22,
+              ),
+            ),
+            body: ListView.separated(
+              itemCount: 10,
+              itemBuilder: (ctx, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                  child: OrderWidget(),
+                );
+              },
+              separatorBuilder: (BuildContext context, index) {
+                return Divider(
+                  color: color,
+                  thickness: 1,
+                );
+              },
+            ),
           );
-        },
-        separatorBuilder: (BuildContext context, index) {
-          return Divider(
-            color: color,
-            thickness: 1,
-          );
-        },
-      ),
-    );
   }
 }
