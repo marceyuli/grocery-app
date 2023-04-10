@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_iconly/flutter_iconly.dart";
 import "package:grocery_app/screens/orders/orders_screen.dart";
+import "package:grocery_app/screens/viewed_recently/viewed_recently.dart";
 import "package:grocery_app/screens/wishlist/wishlist_screen.dart";
 import "package:grocery_app/services/global_methods.dart";
 import "package:grocery_app/widgets/text_widget.dart";
@@ -89,7 +90,11 @@ class _UserScreenState extends State<UserScreen> {
               _listTiles(
                   title: 'Viewed',
                   icon: IconlyLight.show,
-                  onPressed: () {},
+                  onPressed: () {
+                    GlobalMethods().navigateTo(
+                        ctx: context,
+                        routeName: ViewedRecentlyScreen.routeName);
+                  },
                   color: color),
               _listTiles(
                   title: 'Forget Password',
