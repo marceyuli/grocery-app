@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/consts/consts.dart';
 import 'package:grocery_app/inner%20screens/feed_screen.dart';
 import 'package:grocery_app/inner%20screens/on_sale_screen.dart';
 import 'package:grocery_app/provider/dark_theme_provider.dart';
@@ -24,12 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
 
-    final List<String> _offerImages = [
-      'assets/images/offers/Offer1.jpg',
-      'assets/images/offers/Offer2.jpg',
-      'assets/images/offers/Offer3.jpg',
-      'assets/images/offers/Offer4.jpg',
-    ];
+    
     final Utils utils = Utils(context);
     final themeState = utils.getTheme;
     Size size = utils.getScreenSize;
@@ -43,12 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   return Image.asset(
-                    _offerImages[index],
+                     Consts().offerImages[index],
                     fit: BoxFit.fill,
                   );
                 },
                 autoplay: true,
-                itemCount: _offerImages.length,
+                itemCount: Consts().offerImages.length,
                 pagination: const SwiperPagination(
                     alignment: Alignment.bottomCenter,
                     builder: DotSwiperPaginationBuilder(
