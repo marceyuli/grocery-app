@@ -170,7 +170,11 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 10,
               ),
-              AuthButton(fct: () {}, buttonText: 'Login'),
+              AuthButton(
+                  fct: () {
+                    submitFormOnLogin();
+                  },
+                  buttonText: 'Login'),
               const SizedBox(
                 height: 10,
               ),
