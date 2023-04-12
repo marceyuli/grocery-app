@@ -2,7 +2,9 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/screens/auth/forget_password.dart';
 import 'package:grocery_app/screens/auth/login.dart';
+import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/auth_button.dart';
 
 import '../../consts/consts.dart';
@@ -243,7 +245,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            GlobalMethods().navigateTo(
+                                ctx: context,
+                                routeName: ForgetPasswordScreen.routeName);
+                          },
                           child: const Text(
                             'Forget password',
                             maxLines: 1,
@@ -274,8 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   color: Colors.lightBlue, fontSize: 18),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pushReplacement(context,
-                                      LoginScreen.routeName as Route<Object?>);
+                                  Navigator.pop(context);
                                 })
                         ]))
                   ]),
