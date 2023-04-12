@@ -2,11 +2,14 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/consts/consts.dart';
+import 'package:grocery_app/screens/auth/register.dart';
+import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/auth_button.dart';
 import 'package:grocery_app/widgets/google_button.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/LoginScreen';
   const LoginScreen({super.key});
 
   @override
@@ -217,7 +220,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.lightBlue,
                               fontSize: 18,
                               fontWeight: FontWeight.w600),
-                          recognizer: TapGestureRecognizer()..onTap = () {})
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              GlobalMethods().navigateTo(
+                                  ctx: context,
+                                  routeName: RegisterScreen.routeName);
+                            })
                     ]),
               )
             ],
