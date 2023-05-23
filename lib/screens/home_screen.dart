@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
 
-    
     final Utils utils = Utils(context);
     final themeState = utils.getTheme;
     Size size = utils.getScreenSize;
@@ -39,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   return Image.asset(
-                     Consts().offerImages[index],
+                    Consts().offerImages[index],
                     fit: BoxFit.fill,
                   );
                 },
@@ -137,8 +136,13 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.zero,
               //crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.6),
-              children: List.generate(4, (index) {
-                return const FeedsWidget();
+              children: List.generate(
+                  Consts.productsList.length < 4
+                      ? Consts.productsList.length
+                      : 4, (index) {
+                return FeedsWidget(
+                    imgUrl: Consts.productsList[index].imageUrl,
+                    title: Consts.productsList[index].title);
               }),
             ),
           ],

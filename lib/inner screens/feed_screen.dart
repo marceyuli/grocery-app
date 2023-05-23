@@ -4,6 +4,7 @@ import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
 import 'package:grocery_app/widgets/feed_items.dart';
 
+import '../consts/consts.dart';
 import '../widgets/text_widget.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -83,8 +84,11 @@ class _FeedScreenState extends State<FeedScreen> {
             crossAxisCount: 2,
             padding: EdgeInsets.zero,
             childAspectRatio: size.width / (size.height * 0.59),
-            children: List.generate(10, (index) {
-              return const FeedsWidget();
+            children: List.generate(Consts.productsList.length, (index) {
+              return  FeedsWidget(
+                imgUrl: Consts.productsList[index].imageUrl,
+                title: Consts.productsList[index].title
+              );
             }),
           )
         ]),
