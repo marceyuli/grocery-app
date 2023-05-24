@@ -4,6 +4,7 @@ import 'package:grocery_app/inner%20screens/feed_screen.dart';
 import 'package:grocery_app/inner%20screens/on_sale_screen.dart';
 import 'package:grocery_app/inner%20screens/product_details.dart';
 import 'package:grocery_app/provider/dark_theme_provider.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/screens/auth/forget_password.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/auth/register.dart';
@@ -45,9 +46,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) {
-          return themeChangeProvider;
-        })
+        ChangeNotifierProvider(
+          create: (_) {
+            return themeChangeProvider;
+          },
+        ),
+        ChangeNotifierProvider(create: (_) => ProductsProvider(),
+        )
       ],
       child:
           Consumer<DarkThemeProvider>(builder: (context, themeProvider, child) {
@@ -67,7 +72,8 @@ class _MyAppState extends State<MyApp> {
                   const ViewedRecentlyScreen(),
               RegisterScreen.routeName: (ctx) => const RegisterScreen(),
               LoginScreen.routeName: (ctx) => const LoginScreen(),
-              ForgetPasswordScreen.routeName: (ctx) => const ForgetPasswordScreen()
+              ForgetPasswordScreen.routeName: (ctx) =>
+                  const ForgetPasswordScreen()
             });
       }),
     );

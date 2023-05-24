@@ -13,6 +13,9 @@ import 'package:grocery_app/widgets/on_sale_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../models/products_model.dart';
+import '../providers/products_provider.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -28,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final Utils utils = Utils(context);
     final themeState = utils.getTheme;
     Size size = utils.getScreenSize;
+    final productsProvider = Provider.of<ProductsProvider>(context);
+    List<ProductModel> allProducts = productsProvider.getProducts;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -137,12 +142,12 @@ class _HomeScreenState extends State<HomeScreen> {
               //crossAxisSpacing: 10,
               childAspectRatio: size.width / (size.height * 0.6),
               children: List.generate(
-                  Consts.productsList.length < 4
-                      ? Consts.productsList.length
+                  allProducts.length < 4
+                      ? allProducts.length
                       : 4, (index) {
                 return FeedsWidget(
-                    imgUrl: Consts.productsList[index].imageUrl,
-                    title: Consts.productsList[index].title);
+                    imgUrl: allProducts[index].imageUrl,
+                    title: allProducts[index].title);
               }),
             ),
           ],
