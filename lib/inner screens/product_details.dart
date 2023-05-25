@@ -3,10 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/products_provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const routeName = '/_ProductDetailsScreen';
@@ -34,6 +38,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     final Size size = Utils(context).getScreenSize;
     Color color = Utils(context).color;
+    final productsProvider = Provider.of<ProductsProvider>(context);
+
+    final productId = ModalRoute.of(context)!.settings.arguments as String;
+    final getCurrentProduct = productsProvider.getProductById(productId);
+
+    double usedPrice = getCurrentProduct.isOnSale
+        ? getCurrentProduct.salePrice
+        : getCurrentProduct.price;
+    double totalPrice = usedPrice * int.parse(quantityTextController.text);
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackWidget(),
@@ -45,8 +59,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           Flexible(
             flex: 2,
             child: FancyShimmerImage(
-              imageUrl:
-                  'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
+              imageUrl: getCurrentProduct.imageUrl,
               boxFit: BoxFit.scaleDown,
               width: size.width,
             ),
@@ -69,7 +82,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Row(
                       children: [
                         TextWidget(
-                          text: 'Durazno',
+                          text: getCurrentProduct.title,
                           color: color,
                           textSize: 25,
                           isTitle: true,
@@ -85,18 +98,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Row(
                       children: [
                         TextWidget(
-                          text: '\$0.99',
+                          text: '\$${usedPrice.toStringAsFixed(2)}/',
                           color: Colors.green,
                           textSize: 25,
                           isTitle: true,
                         ),
-                        const Text('/Kg'),
+                         TextWidget(
+                         text:  getCurrentProduct.isPiece? 'Piece':'/Kg',
+                         color: color,
+                         textSize: 12,
+                         isTitle: false,
+                         ),
                         const SizedBox(
                           width: 10,
                         ),
                         Visibility(
-                            visible: true,
-                            child: Text('\$2.99',
+                            visible: getCurrentProduct.isOnSale ? true: false,
+                            child: Text(
+                              '\$${getCurrentProduct.price.toStringAsFixed(2)}',
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: color,
@@ -220,7 +239,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         child: Row(
                           children: [
                             TextWidget(
-                              text: '\$0.99/',
+                              text: '\$${totalPrice.toStringAsFixed(2)}/',
                               color: color,
                               textSize: 20,
                               isTitle: true,

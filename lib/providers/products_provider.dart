@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../models/products_model.dart';
 
-class ProductsProvider  with ChangeNotifier{
+class ProductsProvider with ChangeNotifier {
   List<ProductModel> get getProducts {
     return productsList;
   }
+
+  List<ProductModel> get getProductsOnSale {
+    return productsList.where((element) => element.isOnSale).toList();
+  }
+
+  ProductModel getProductById(String id){
+    return productsList.firstWhere((element) => element.id == id);
+  }
+
   static List<ProductModel> productsList = [
     ProductModel(
         id: 'Apricot',
@@ -20,8 +29,7 @@ class ProductsProvider  with ChangeNotifier{
     ProductModel(
         id: 'Apple',
         title: 'Apple',
-        imageUrl:
-            'https://pngimg.com/d/apple_PNG12436.png',
+        imageUrl: 'https://pngimg.com/d/apple_PNG12436.png',
         productCategoryName: 'Fruits',
         price: 0.99,
         salePrice: 0.75,
@@ -40,12 +48,20 @@ class ProductsProvider  with ChangeNotifier{
     ProductModel(
         id: 'Carrot',
         title: 'Carrot',
-        imageUrl:
-            'https://pngimg.com/d/carrot_PNG99145.png',
+        imageUrl: 'https://pngimg.com/d/carrot_PNG99145.png',
         productCategoryName: 'Vegetables',
         price: 0.99,
         salePrice: 0.75,
         isOnSale: true,
+        isPiece: false),
+    ProductModel(
+        id: 'Tomato',
+        title: 'Tomato',
+        imageUrl: 'https://pngfre.com/wp-content/uploads/Tomato-22-2-1024x1001.png',
+        productCategoryName: 'Vegetables',
+        price: 0.80,
+        salePrice: 0.50,
+        isOnSale: false,
         isPiece: false),
   ];
 }

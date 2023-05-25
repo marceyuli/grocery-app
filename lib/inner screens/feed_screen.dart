@@ -90,9 +90,11 @@ class _FeedScreenState extends State<FeedScreen> {
             padding: EdgeInsets.zero,
             childAspectRatio: size.width / (size.height * 0.59),
             children: List.generate(allProducts.length, (index) {
-              return FeedsWidget(
-                  imgUrl: allProducts[index].imageUrl,
-                  title: allProducts[index].title);
+               return ChangeNotifierProvider.value(
+                  value: allProducts[index],
+                  child: const FeedsWidget(
+                      ),
+                );
             }),
           )
         ]),

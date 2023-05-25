@@ -1,9 +1,11 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../inner screens/product_details.dart';
 import '../services/global_methods.dart';
@@ -21,6 +23,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
     final theme = Utils(context).getTheme;
+    final productModel = Provider.of<ProductModel>(context);
     Size size = Utils(context).getScreenSize;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -30,8 +33,10 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () {
-              GlobalMethods().navigateTo(
-                  ctx: context, routeName: ProductDetailsScreen.routeName);
+               Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+                    arguments: productModel.id);
+              /*GlobalMethods().navigateTo(
+                  ctx: context, routeName: ProductDetailsScreen.routeName); */
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -44,14 +49,14 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                       children: [
                         FancyShimmerImage(
                             imageUrl:
-                                'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
+                                productModel.imageUrl,
                             height: size.width * 0.15,
                             width: size.width * 0.15,
                             boxFit: BoxFit.fill),
                         Column(
                           children: [
                             TextWidget(
-                              text: '1KG',
+                              text: productModel.isPiece? '1Piece' : '1KG',
                               color: color,
                               textSize: 22,
                               isTitle: true,
@@ -73,9 +78,9 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                         )
                       ],
                     ),
-                    const PriceWidget(
-                      salePrice: 2.99,
-                      price: 5.9,
+                     PriceWidget(
+                      salePrice: productModel.salePrice,
+                      price: productModel.price,
                       textPrice: '1',
                       isOnSale: true,
                     ),
@@ -83,7 +88,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                       height: 5,
                     ),
                     TextWidget(
-                        text: 'Product title', color: color, textSize: 16),
+                        text: productModel.title, color: color, textSize: 16),
                     const SizedBox(
                       height: 5,
                     ),

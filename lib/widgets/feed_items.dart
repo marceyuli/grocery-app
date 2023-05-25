@@ -2,16 +2,18 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grocery_app/inner%20screens/product_details.dart';
+import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../services/utils.dart';
 
 class FeedsWidget extends StatefulWidget {
-  const FeedsWidget({super.key, required this.imgUrl, required this.title});
-  final String imgUrl, title;
+  const FeedsWidget({super.key});
   @override
   State<FeedsWidget> createState() => _FeedsWidgetState();
 }
@@ -36,7 +38,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final Color color = Utils(context).color;
 
     Size size = Utils(context).getScreenSize;
-
+    final productModel = Provider.of<ProductModel>(context);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Material(
@@ -44,14 +46,16 @@ class _FeedsWidgetState extends State<FeedsWidget> {
           color: Theme.of(context).cardColor,
           child: InkWell(
               onTap: () {
-                GlobalMethods().navigateTo(
-                    ctx: context, routeName: ProductDetailsScreen.routeName);
+                Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+                    arguments: productModel.id);
+                /* GlobalMethods().navigateTo(
+                    ctx: context, routeName: ProductDetailsScreen.routeName); */
               },
               borderRadius: BorderRadius.circular(5),
               child: Column(
                 children: [
                   FancyShimmerImage(
-                      imageUrl: widget.imgUrl,
+                      imageUrl: productModel.imageUrl,
                       height: size.width * 0.15,
                       width: size.width * 0.15,
                       boxFit: BoxFit.fill),
@@ -64,14 +68,14 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         Flexible(
                           flex: 3,
                           child: TextWidget(
-                            text: widget.title,
+                            text: productModel.title,
                             color: color,
                             textSize: 18,
                             isTitle: true,
                             maxLines: 1,
                           ),
                         ),
-                        const Flexible(flex: 1, child:  HeartBtn())
+                        const Flexible(flex: 1, child: HeartBtn())
                       ],
                     ),
                   ),
@@ -81,24 +85,25 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
-                          flex: 4,
+                          flex: 3,
                           child: PriceWidget(
-                            salePrice: 2.99,
-                            price: 5.9,
+                            salePrice: productModel.salePrice,
+                            price: productModel.price,
                             textPrice: _quantityTextController.text,
-                            isOnSale: true,
+                            isOnSale: productModel.isOnSale,
                           ),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Flexible(
+                          flex: 6,
                           child: Row(children: [
                             FittedBox(
                               child: TextWidget(
-                                text: 'KG',
+                                text: productModel.isPiece ? 'Piece' : 'KG',
                                 color: color,
-                                textSize: 18,
+                                textSize: 15,
                                 isTitle: true,
                               ),
                             ),
