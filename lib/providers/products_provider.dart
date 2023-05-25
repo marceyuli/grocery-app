@@ -11,8 +11,17 @@ class ProductsProvider with ChangeNotifier {
     return productsList.where((element) => element.isOnSale).toList();
   }
 
-  ProductModel getProductById(String id){
+  ProductModel getProductById(String id) {
     return productsList.firstWhere((element) => element.id == id);
+  }
+
+  List<ProductModel> getProductsByCategory(String category) {
+    List<ProductModel> categoryList = productsList
+        .where((element) => element.productCategoryName
+            .toLowerCase()
+            .contains(category.toLowerCase()))
+        .toList();
+    return categoryList;
   }
 
   static List<ProductModel> productsList = [
@@ -57,7 +66,8 @@ class ProductsProvider with ChangeNotifier {
     ProductModel(
         id: 'Tomato',
         title: 'Tomato',
-        imageUrl: 'https://pngfre.com/wp-content/uploads/Tomato-22-2-1024x1001.png',
+        imageUrl:
+            'https://pngfre.com/wp-content/uploads/Tomato-22-2-1024x1001.png',
         productCategoryName: 'Vegetables',
         price: 0.80,
         salePrice: 0.50,

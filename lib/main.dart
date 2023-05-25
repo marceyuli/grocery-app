@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/consts/theme_data.dart';
+import 'package:grocery_app/inner%20screens/cat_screen.dart';
 import 'package:grocery_app/inner%20screens/feed_screen.dart';
 import 'package:grocery_app/inner%20screens/on_sale_screen.dart';
 import 'package:grocery_app/inner%20screens/product_details.dart';
@@ -73,7 +74,8 @@ class _MyAppState extends State<MyApp> {
               RegisterScreen.routeName: (ctx) => const RegisterScreen(),
               LoginScreen.routeName: (ctx) => const LoginScreen(),
               ForgetPasswordScreen.routeName: (ctx) =>
-                  const ForgetPasswordScreen()
+                  const ForgetPasswordScreen(),
+              CategoryScreen.routeName: (ctx) => const CategoryScreen(),
             });
       }),
     );
