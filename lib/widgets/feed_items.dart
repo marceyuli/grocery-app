@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grocery_app/inner%20screens/product_details.dart';
 import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
@@ -10,6 +11,7 @@ import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/cart_provider.dart';
 import '../services/utils.dart';
 
 class FeedsWidget extends StatefulWidget {
@@ -39,6 +41,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
 
     Size size = Utils(context).getScreenSize;
     final productModel = Provider.of<ProductModel>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Material(
@@ -124,7 +127,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                                     setState(() {
                                       if (value.isEmpty) {
                                         _quantityTextController.text = '1';
-                                      } else {}
+                                      } else {
+                                        _quantityTextController.text =
+                                            _quantityTextController.text;
+                                      }
                                     });
                                   },
                                   onSaved: (value) {},
@@ -142,7 +148,11 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        cartProvider.addProductsToTheCart(
+                            productId: productModel.id,
+                            quantity: int.parse(_quantityTextController.text));
+                      },
                       child: TextWidget(
                         text: 'Add to cart',
                         maxLines: 1,
