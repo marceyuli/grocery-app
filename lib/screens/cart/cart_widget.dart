@@ -2,11 +2,16 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grocery_app/models/cart_model.dart';
+import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../inner screens/product_details.dart';
+import '../../providers/products_provider.dart';
 import '../../services/global_methods.dart';
 
 class CartWidget extends StatefulWidget {
@@ -35,7 +40,11 @@ class _CartWidgetState extends State<CartWidget> {
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     Color color = Utils(context).color;
-
+    final productsProvider = Provider.of<ProductsProvider>(context);
+    final cartModel = Provider.of<CartModel>(context);
+    final getCurrProd = productsProvider.getProductById(cartModel.productId);
+    double usedPrice =
+        getCurrProd.isOnSale ? getCurrProd.salePrice : getCurrProd.price;
     return GestureDetector(
       onTap: () {
         GlobalMethods().navigateTo(
@@ -59,14 +68,14 @@ class _CartWidgetState extends State<CartWidget> {
                           borderRadius: BorderRadius.circular(12.0)),
                       child: FancyShimmerImage(
                           imageUrl:
-                              'https://purepng.com/public/uploads/large/purepng.com-apricotapricotfruitfreshorangeapricotsume-481521304824jpk3y.png',
+                              getCurrProd.imageUrl,
                           boxFit: BoxFit.fill),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(
-                          text: 'Title',
+                          text: getCurrProd.title,
                           color: color,
                           textSize: 20,
                           isTitle: true,
@@ -152,7 +161,7 @@ class _CartWidgetState extends State<CartWidget> {
                           ),
                           const HeartBtn(),
                           TextWidget(
-                            text: '\$0.29',
+                            text: '\$${usedPrice.toStringAsFixed(2)}',
                             color: color,
                             textSize: 18,
                             maxLines: 1,

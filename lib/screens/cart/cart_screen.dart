@@ -55,7 +55,9 @@ class CartScreen extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: cartItems.length,
                       itemBuilder: (ctx, index) {
-                        return CartWidget();
+                        return ChangeNotifierProvider.value(
+                          value: cartItems[index],
+                          child: CartWidget());
                       }),
                 ),
               ],
