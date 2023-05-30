@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/back_widget.dart';
@@ -47,6 +48,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ? getCurrentProduct.salePrice
         : getCurrentProduct.price;
     double totalPrice = usedPrice * int.parse(quantityTextController.text);
+
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -103,19 +106,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           textSize: 25,
                           isTitle: true,
                         ),
-                         TextWidget(
-                         text:  getCurrentProduct.isPiece? 'Piece':'/Kg',
-                         color: color,
-                         textSize: 12,
-                         isTitle: false,
-                         ),
+                        TextWidget(
+                          text: getCurrentProduct.isPiece ? 'Piece' : '/Kg',
+                          color: color,
+                          textSize: 12,
+                          isTitle: false,
+                        ),
                         const SizedBox(
                           width: 10,
                         ),
                         Visibility(
-                            visible: getCurrentProduct.isOnSale ? true: false,
+                            visible: getCurrentProduct.isOnSale ? true : false,
                             child: Text(
-                              '\$${getCurrentProduct.price.toStringAsFixed(2)}',
+                                '\$${getCurrentProduct.price.toStringAsFixed(2)}',
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: color,
@@ -263,12 +266,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(10),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          cartProvider.addProductsToTheCart(
+                              productId: getCurrentProduct.id,
+                              quantity: int.parse(quantityTextController.text));
+                        },
                         borderRadius: BorderRadius.circular(10),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: TextWidget(
-                            text: 'In Cart',
+                            text: 'Add to Cart',
                             color: Colors.white,
                             textSize: 20,
                           ),
