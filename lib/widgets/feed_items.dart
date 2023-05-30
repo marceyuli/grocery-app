@@ -42,6 +42,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     Size size = Utils(context).getScreenSize;
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+    bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Material(
@@ -148,13 +149,13 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: isInCart? null : () {
                         cartProvider.addProductsToTheCart(
                             productId: productModel.id,
                             quantity: int.parse(_quantityTextController.text));
                       },
                       child: TextWidget(
-                        text: 'Add to cart',
+                        text: isInCart? 'In Cart' : 'Add to cart',
                         maxLines: 1,
                         color: color,
                         textSize: 20,

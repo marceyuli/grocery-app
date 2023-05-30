@@ -51,6 +51,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     final cartProvider = Provider.of<CartProvider>(context);
 
+    bool? isInCart = cartProvider.getCartItems.containsKey(getCurrentProduct.id);
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackWidget(),
@@ -266,7 +268,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(10),
                       child: InkWell(
-                        onTap: () {
+                        onTap: isInCart? null : () {
                           cartProvider.addProductsToTheCart(
                               productId: getCurrentProduct.id,
                               quantity: int.parse(quantityTextController.text));
@@ -275,7 +277,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: TextWidget(
-                            text: 'Add to Cart',
+                            text: isInCart? 'In Cart' : 'Add to Cart',
                             color: Colors.white,
                             textSize: 20,
                           ),
