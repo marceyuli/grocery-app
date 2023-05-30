@@ -18,9 +18,36 @@ class CartProvider extends ChangeNotifier {
             id: DateTime.now().toString(),
             productId: productId,
             quantity: quantity));
+    notifyListeners();
   }
 
   bool get isCartEmpty {
     return cartItems.isEmpty;
+  }
+
+  void reduceQuantityByOne(String productId) {
+    cartItems.update(
+        productId,
+        (value) => CartModel(
+            id: value.id, productId: productId, quantity: value.quantity - 1));
+    notifyListeners();
+  }
+
+  void increaseQuantityByOne(String productId) {
+    cartItems.update(
+        productId,
+        (value) => CartModel(
+            id: value.id, productId: productId, quantity: value.quantity + 1));
+    notifyListeners();
+  }
+
+  void removeOneItem(String productId) {
+    cartItems.remove(productId);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    cartItems.clear();
+    notifyListeners();
   }
 }
