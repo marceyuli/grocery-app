@@ -6,6 +6,7 @@ import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/providers/products_provider.dart';
+import 'package:grocery_app/providers/wishlist_provider.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
@@ -48,6 +49,9 @@ class _CartWidgetState extends State<CartWidget> {
     double usedPrice =
         getCurrProd.isOnSale ? getCurrProd.salePrice : getCurrProd.price;
     final cartProvider = Provider.of<CartProvider>(context);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
+    bool? _isInWishlist =
+        wishlistProvider.getWishlistItems.containsKey(getCurrProd.id);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, ProductDetailsScreen.routeName,
@@ -166,7 +170,10 @@ class _CartWidgetState extends State<CartWidget> {
                           SizedBox(
                             height: 5,
                           ),
-                          const HeartBtn(),
+                          HeartBtn(
+                            productId: getCurrProd.id,
+                            isInWishlist: _isInWishlist,
+                          ),
                           TextWidget(
                             text: '\$${usedPrice.toStringAsFixed(2)}',
                             color: color,

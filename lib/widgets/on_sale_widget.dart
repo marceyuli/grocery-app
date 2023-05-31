@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/providers/cart_provider.dart';
+import 'package:grocery_app/providers/wishlist_provider.dart';
 import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
@@ -28,6 +29,9 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
     final cartProvider = Provider.of<CartProvider>(context);
     Size size = Utils(context).getScreenSize;
     bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
+    bool? _isInWishlist =
+        wishlistProvider.getWishlistItems.containsKey(productModel.id);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -71,17 +75,21 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                               GestureDetector(
                                   onTap: () {
                                     cartProvider.addProductsToTheCart(
-                                        productId: productModel.id,
-                                        quantity: 1,
-                                      );
+                                      productId: productModel.id,
+                                      quantity: 1,
+                                    );
                                   },
                                   child: Icon(
-                                    isInCart? IconlyBold.bag2 :
-                                    IconlyLight.bag2,
+                                    isInCart
+                                        ? IconlyBold.bag2
+                                        : IconlyLight.bag2,
                                     size: 22,
-                                    color: isInCart? Colors.green : color,
+                                    color: isInCart ? Colors.green : color,
                                   )),
-                              const HeartBtn(),
+                              HeartBtn(
+                                productId: productModel.id,
+                                isInWishlist: _isInWishlist,
+                              ),
                             ]),
                           ],
                         )

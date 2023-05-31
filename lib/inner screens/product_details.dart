@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/models/wishlist_model.dart';
 import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/services/utils.dart';
@@ -12,6 +13,7 @@ import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products_provider.dart';
+import '../providers/wishlist_provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const routeName = '/_ProductDetailsScreen';
@@ -51,7 +53,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     final cartProvider = Provider.of<CartProvider>(context);
 
-    bool? isInCart = cartProvider.getCartItems.containsKey(getCurrentProduct.id);
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(getCurrentProduct.id);
+
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
+    bool? _isInWishlist = wishlistProvider.getWishlistItems.containsKey(getCurrentProduct.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -93,7 +99,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           isTitle: true,
                         ),
                         const Spacer(),
-                        const HeartBtn(),
+                        HeartBtn(
+                          productId: getCurrentProduct.id,
+                          isInWishlist: _isInWishlist,
+                        ),
                       ],
                     ),
                   ),
@@ -268,16 +277,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(10),
                       child: InkWell(
-                        onTap: isInCart? null : () {
-                          cartProvider.addProductsToTheCart(
-                              productId: getCurrentProduct.id,
-                              quantity: int.parse(quantityTextController.text));
-                        },
+                        onTap: isInCart
+                            ? null
+                            : () {
+                                cartProvider.addProductsToTheCart(
+                                    productId: getCurrentProduct.id,
+                                    quantity:
+                                        int.parse(quantityTextController.text));
+                              },
                         borderRadius: BorderRadius.circular(10),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: TextWidget(
-                            text: isInCart? 'In Cart' : 'Add to Cart',
+                            text: isInCart ? 'In Cart' : 'Add to Cart',
                             color: Colors.white,
                             textSize: 20,
                           ),

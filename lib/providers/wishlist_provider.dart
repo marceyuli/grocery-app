@@ -8,7 +8,7 @@ class WishlistProvider with ChangeNotifier {
     return wishlistItems;
   }
 
-  void addProductToTheWishlist({required String productId}) {
+  void addRemoveProductToTheWishlist({required String productId}) {
     if (wishlistItems.containsKey(productId)) {
       removeOneItem(productId);
     } else {
@@ -17,6 +17,7 @@ class WishlistProvider with ChangeNotifier {
           () => WishlistModel(
               id: DateTime.now().toString(), productId: productId));
     }
+    notifyListeners();
   }
 
   void removeOneItem(String productId) {
