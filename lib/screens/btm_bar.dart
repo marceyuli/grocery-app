@@ -8,6 +8,7 @@ import 'package:grocery_app/services/dark_theme_prefs.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
+import '../providers/cart_provider.dart';
 import '../widgets/text_widget.dart';
 import 'cart/cart_screen.dart';
 
@@ -35,6 +36,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
     bool _isDark = themeState.getDarkTheme;
+    final cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       // appBar: AppBar(title: Text(_pages[_selectedIndex]['title'])),
       body: _pages[_selectedIndex]['page'],
@@ -69,7 +71,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                   position: badges.BadgePosition.topEnd(top: -7, end: -7),
                   badgeContent: FittedBox(
                       child: TextWidget(
-                          text: '1', color: Colors.white, textSize: 15)),
+                          text: cartProvider.getCartItems.length.toString(), color: Colors.white, textSize: 15)),
                   child: Icon(
                       _selectedIndex == 2 ? IconlyBold.buy : IconlyLight.buy),
                 ),
