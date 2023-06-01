@@ -1,7 +1,9 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/consts/firebase_consts.dart';
 import 'package:grocery_app/screens/auth/forget_password.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/services/global_methods.dart';
@@ -41,11 +43,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  bool isLoading = false;
   void submitFormOnRegister() async {
     final isValid = formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
+    setState(() {
+      isLoading = true;
+    });
     if (isValid) {
       formKey.currentState!.save();
+      try {
+        await authInstance.createUserWithEmailAndPassword(
+            email: emailTextController.text.toLowerCase().trim(),
+            password: passTextController.text.trim());
+        print('Succesfully registered');
+      } on FirebaseException catch (error) {
+        print(error);
+        GlobalMethods().errorDialog(context: context, subtitle: '${error.message}');
+        setState(() {
+          isLoading = false;
+        });
+      } catch (error) {
+        print(error);
+        GlobalMethods().errorDialog(context: context, subtitle: '$error');
+        setState(() {
+          isLoading = false;
+        });
+      }finally {
+        setState(() {
+          isLoading = false; 
+        });
+      }
     }
   }
 
@@ -260,6 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontStyle: FontStyle.italic),
                           )),
                     ),
+                    isLoading ? const CircularProgressIndicator() : 
                     AuthButton(
                         fct: () {
                           submitFormOnRegister();
