@@ -73,7 +73,7 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                             ),
                             Row(children: [
                               GestureDetector(
-                                  onTap: () {
+                                  onTap: isInCart? null : () {
                                     cartProvider.addProductsToTheCart(
                                       productId: productModel.id,
                                       quantity: 1,
