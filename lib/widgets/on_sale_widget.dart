@@ -1,4 +1,5 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/models/products_model.dart';
@@ -9,6 +10,7 @@ import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/firebase_consts.dart';
 import '../inner screens/product_details.dart';
 import '../services/global_methods.dart';
 import '../services/utils.dart';
@@ -73,12 +75,23 @@ class _OnSaleWidgetState extends State<OnSaleWidget> {
                             ),
                             Row(children: [
                               GestureDetector(
-                                  onTap: isInCart? null : () {
-                                    cartProvider.addProductsToTheCart(
-                                      productId: productModel.id,
-                                      quantity: 1,
-                                    );
-                                  },
+                                  onTap: isInCart
+                                      ? null
+                                      : () {
+                                          final User? user =
+                                              authInstance.currentUser;
+                                          if (user == null) {
+                                            GlobalMethods().errorDialog(
+                                                subtitle:
+                                                    'No user found, please log in',
+                                                context: context);
+                                                return;
+                                          }
+                                          cartProvider.addProductsToTheCart(
+                                            productId: productModel.id,
+                                            quantity: 1,
+                                          );
+                                        },
                                   child: Icon(
                                     isInCart
                                         ? IconlyBold.bag2

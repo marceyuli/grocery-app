@@ -1,4 +1,5 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,8 +14,10 @@ import 'package:grocery_app/widgets/heart_btn.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/firebase_consts.dart';
 import '../providers/products_provider.dart';
 import '../providers/wishlist_provider.dart';
+import '../services/global_methods.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const routeName = '/_ProductDetailsScreen';
@@ -291,6 +294,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onTap: isInCart
                               ? null
                               : () {
+                                  final User? user = authInstance.currentUser;
+                                  if (user == null) {
+                                    GlobalMethods().errorDialog(
+                                        subtitle:
+                                            'No user found, please log in',
+                                        context: context);
+                                  }
                                   cartProvider.addProductsToTheCart(
                                       productId: getCurrentProduct.id,
                                       quantity: int.parse(

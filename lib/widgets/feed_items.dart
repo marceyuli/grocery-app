@@ -1,4 +1,5 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grocery_app/inner%20screens/product_details.dart';
@@ -12,6 +13,7 @@ import 'package:grocery_app/widgets/price_widget.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/firebase_consts.dart';
 import '../providers/cart_provider.dart';
 import '../services/utils.dart';
 
@@ -45,7 +47,8 @@ class _FeedsWidgetState extends State<FeedsWidget> {
     final cartProvider = Provider.of<CartProvider>(context);
     bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
-    bool? _isInWishlist = wishlistProvider.getWishlistItems.containsKey(productModel.id);
+    bool? _isInWishlist =
+        wishlistProvider.getWishlistItems.containsKey(productModel.id);
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Material(
@@ -82,11 +85,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                             maxLines: 1,
                           ),
                         ),
-                        Flexible(flex: 1, child: 
-                        HeartBtn(
-                          productId: productModel.id,
-                          isInWishlist: _isInWishlist,
-                        ))
+                        Flexible(
+                            flex: 1,
+                            child: HeartBtn(
+                              productId: productModel.id,
+                              isInWishlist: _isInWishlist,
+                            ))
                       ],
                     ),
                   ),
@@ -156,13 +160,23 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: isInCart? null : () {
-                        cartProvider.addProductsToTheCart(
-                            productId: productModel.id,
-                            quantity: int.parse(_quantityTextController.text));
-                      },
+                      onPressed: isInCart
+                          ? null
+                          : () {
+                              final User? user = authInstance.currentUser;
+                              if (user == null) {
+                                GlobalMethods().errorDialog(
+                                    subtitle: 'No user found, please log in',
+                                    context: context);
+                                    return;
+                              }
+                              cartProvider.addProductsToTheCart(
+                                  productId: productModel.id,
+                                  quantity:
+                                      int.parse(_quantityTextController.text));
+                            },
                       child: TextWidget(
-                        text: isInCart? 'In Cart' : 'Add to cart',
+                        text: isInCart ? 'In Cart' : 'Add to cart',
                         maxLines: 1,
                         color: color,
                         textSize: 20,

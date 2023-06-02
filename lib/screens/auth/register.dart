@@ -6,6 +6,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/consts/firebase_consts.dart';
 import 'package:grocery_app/screens/auth/forget_password.dart';
 import 'package:grocery_app/screens/auth/login.dart';
+import 'package:grocery_app/screens/btm_bar.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/widgets/auth_button.dart';
@@ -57,10 +58,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await authInstance.createUserWithEmailAndPassword(
             email: emailTextController.text.toLowerCase().trim(),
             password: passTextController.text.trim());
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const BottomBarScreen()));
         print('Succesfully registered');
       } on FirebaseException catch (error) {
         print(error);
-        GlobalMethods().errorDialog(context: context, subtitle: '${error.message}');
+        GlobalMethods()
+            .errorDialog(context: context, subtitle: '${error.message}');
         setState(() {
           isLoading = false;
         });
@@ -70,9 +74,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         setState(() {
           isLoading = false;
         });
-      }finally {
+      } finally {
         setState(() {
-          isLoading = false; 
+          isLoading = false;
         });
       }
     }
@@ -84,9 +88,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Color color = Utils(context).color;
     return Scaffold(
         body: LoadingManager(
-          isLoading: isLoading,
-          child: Stack(
-              children: <Widget>[
+      isLoading: isLoading,
+      child: Stack(
+        children: <Widget>[
           Swiper(
             duration: 800,
             autoplayDelay: 2000,
@@ -217,8 +221,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                         },
                         style: const TextStyle(color: Colors.white),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).requestFocus(addressFocusNode),
+                        onEditingComplete: () => FocusScope.of(context)
+                            .requestFocus(addressFocusNode),
                         decoration: InputDecoration(
                             suffixIcon: GestureDetector(
                                 onTap: () {
@@ -318,8 +322,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   )
                 ]),
           )
-              ],
-            ),
-        ));
+        ],
+      ),
+    ));
   }
 }

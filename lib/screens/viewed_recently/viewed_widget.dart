@@ -1,4 +1,5 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -10,6 +11,8 @@ import 'package:grocery_app/services/global_methods.dart';
 import 'package:grocery_app/services/utils.dart';
 import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../../consts/firebase_consts.dart';
 
 class ViewedRecentlyWidget extends StatefulWidget {
   const ViewedRecentlyWidget({super.key});
@@ -39,8 +42,8 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
       padding: const EdgeInsets.all(8),
       child: GestureDetector(
         onTap: () {
-          GlobalMethods().navigateTo(
-              ctx: context, routeName: ProductDetailsScreen.routeName);
+          // GlobalMethods().navigateTo(
+          //     ctx: context, routeName: ProductDetailsScreen.routeName);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,13 +86,20 @@ class _ViewedRecentlyWidgetState extends State<ViewedRecentlyWidget> {
                   onTap: isInCart
                       ? null
                       : () {
+                          final User? user = authInstance.currentUser;
+                          if (user == null) {
+                            GlobalMethods().errorDialog(
+                                subtitle: 'No user found, please log in',
+                                context: context);
+                                return;
+                          }
                           cartProvider.addProductsToTheCart(
                               productId: getCurrProd.id, quantity: 1);
                         },
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(
-                      isInCart ?  Icons.check : IconlyBold.plus,
+                      isInCart ? Icons.check : IconlyBold.plus,
                       color: Colors.white,
                       size: 20,
                     ),
